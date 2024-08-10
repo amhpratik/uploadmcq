@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="button"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        input[type="button"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+        p {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px auto;
+            width: calc(100% - 40px);
+            word-wrap: break-word;
+        }
+        .option-container {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        .option-container input[type="radio"] {
+            margin-right: 10px;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <div>
+            <input type="text" id="que" placeholder="Question">
+        </div>
+        
+        <div class="option-container">
+            <input type="radio" id="correct1" name="correctOption">
+            <input type="text" id="one" placeholder="Option1">
+        </div>
+        <div class="option-container">
+            <input type="radio" id="correct2" name="correctOption">
+            <input type="text" id="two" placeholder="Option2">
+        </div>
+        <div class="option-container">
+            <input type="radio" id="correct3" name="correctOption">
+            <input type="text" id="three" placeholder="Option3">
+        </div>
+        <div class="option-container">
+            <input type="radio" id="correct4" name="correctOption">
+            <input type="text" id="four" placeholder="Option4">
+        </div>
+        <div class="option-container">
+            <input type="radio" id="jpgRadio" name="imageFormat" value=".jpg" onchange="updateImageInput()">
+            <label for="jpgRadio">.jpg</label>
+            <input type="radio" id="pngRadio" name="imageFormat" value=".png" onchange="updateImageInput()">
+            <label for="pngRadio">.png</label>
+            <input type="radio" id="jpegRadio" name="imageFormat" value=".jpeg" onchange="updateImageInput()">
+            <label for="jpegRadio">.jpeg</label>
+            <input type="radio" id="noImageRadio" name="imageFormat" value="none" onchange="updateImageInput()" checked>
+            <label for="noImageRadio">No Image</label>
+            </div>
+        <div class="option-container">
+            <input type="text" id="img" placeholder="Image file name">
+        </div>
+        <div>
+            <input type="button" id="btn" value="Save">
+        </div>
+    </form>
+    <p id="paragraph">
+        { question: "<span id="que1"></span>", <br>
+        img: "<span id="iimg"></span>", <br>
+        answers: [ <br>
+        { text: "<span id="oone"></span>", correct: <span id="option1">false</span> }, <br>
+        { text: "<span id="otwo"></span>", correct: <span id="option2">false</span> }, <br>
+        { text: "<span id="othree"></span>", correct: <span id="option3">false</span> }, <br>
+        { text: "<span id="ofour"></span>", correct: <span id="option4">false</span> }, <br>
+        ],  },
+        
+    </p>
+    <div class="button-container">
+        <button onclick="copyText()">Copy Text</button>
+        <button onclick="refreshPage()">Refresh Site</button>
+    </div>
+    <script>
+        const txt1 = document.getElementById('que');
+        const txt2 = document.getElementById('one');
+        const txt3 = document.getElementById('two');
+        const txt4 = document.getElementById('three');
+        const txt5 = document.getElementById('four');
+        const txt6 = document.getElementById('img');
+        
+        const btn = document.getElementById('btn');
+        
+        const que1 = document.getElementById('que1');
+        const opt1 = document.getElementById('oone');
+        const opt2 = document.getElementById('otwo');
+        const opt3 = document.getElementById('othree');
+        const opt4 = document.getElementById('ofour');
+        const iimg = document.getElementById('iimg');
+        
+        const option1 = document.getElementById('option1');
+        const option2 = document.getElementById('option2');
+        const option3 = document.getElementById('option3');
+        const option4 = document.getElementById('option4');
+        
+        const correct1 = document.getElementById('correct1');
+        const correct2 = document.getElementById('correct2');
+        const correct3 = document.getElementById('correct3');
+        const correct4 = document.getElementById('correct4');
+
+        function fun1() {
+            que1.innerHTML = txt1.value;
+            opt1.innerHTML = txt2.value;
+            opt2.innerHTML = txt3.value;
+            opt3.innerHTML = txt4.value;
+            opt4.innerHTML = txt5.value;
+            iimg.innerHTML = txt6.value;
+        }
+        
+        function updateCorrectAnswer() {
+            option1.innerHTML = correct1.checked ? true : false;
+            option2.innerHTML = correct2.checked ? true : false;
+            option3.innerHTML = correct3.checked ? true : false;
+            option4.innerHTML = correct4.checked ? true : false;
+        }
+        
+        function copyText() {
+            var text = document.getElementById('paragraph').innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Text copied to clipboard!');
+            }).catch(function(err) {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+        
+        function refreshPage() {
+            location.reload(); // Reloads the current page
+        }
+        
+        btn.addEventListener('click', () => {
+            fun1();
+            updateCorrectAnswer();
+        });
+
+        function updateImageInput() {
+            let imageFormats = [];
+            if (document.getElementById('pngRadio').checked) {
+                imageFormats.push('.png');
+            }
+            if (document.getElementById('jpgRadio').checked) {
+                imageFormats.push('.jpg');
+            }
+            if (document.getElementById('jpegRadio').checked) {
+                imageFormats.push('.jpeg');
+            }
+            if (imageFormats.length > 0) {
+                txt6.value = `/pediatrics/imgp2-501-601/pg${imageFormats[0]}`;
+            } else {
+                txt6.value = "";
+            }
+        }
+    </script>
+</body>
+</html>
